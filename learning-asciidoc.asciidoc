@@ -1,0 +1,275 @@
+= Learning Asciidoc
+
+==== 段落换行
+
+a `space` followed by a `plus`
+----
+Roses are red, +  
+Violets are blue. 
+----
+
+==== Admonitions paragraphs警告段落
+
+prefix it with an `uppercase label`
+
+-----
+NOTE: Admonition paragraphs call attention to special words of advice. 
+-----
+
+NOTE: Admonition paragraphs call attention to special words of advice. 
+
+- NOTE
+- TIP
+- WARNING
+- CAUTION
+- IMPORTANT
+
+==== Mild punctuation 标记
+
+-----
+*bold* +
+_Italic_ +
+*_Bold italic_* +
++Monospace+ +
+#Open style# // can assign it a role(i.e., CSS class) +
+abc^def^ghi //上标 +
+abc~def~ghi //下标 +
+`asciidoc` is a text plain ...
+-----
+
+*bold* _Italic_ *_Bold italic_* +Monospace+ +
+#Open style# // can assign it a role(i.e., CSS class) +
+abc^def^ghi //上标 +
+abc~def~ghi //下标 +
+`asciidoc` is a text plain 
+
+NOTE: `Double up the punctuation` when quote text other than at the boundaries of a word 
+
+-----
+**F**our score and seven years ago
+``F``our score and seven years ago 
+-----
+
+**F**our score and seven years ago +
+``F``our score and seven years ago 
+
+Any quoted text can be prefixed with an attribute list.
+
+When rendering to HTML, the word "asciidoc" is wrapped in `<span>` tags and the role is used as the element's CSS class.
+-----
+Type the word [userinput]#asciidoc# into the search bar.
+
+<span class="userinput">asiidoc</span>
+-----
+
+==== Preventing substitution 转义
+
+1.Backslash encaping 反斜杠转义
+
+2.Double dollar enclosure
+
+3.Triple plus enclosure & inline pass macro
+
+4.Backticks enclosure 反引号
+
+-----
+\*Stars* will not be bold, but rather appear as *Stars*.
+$$*Stars*$$ will not be bold, but rather appear as *Stars*. 
++++*Stars*+++ will not be bold, but rather appear as *Stars*. 
+pass:[*Stars*] will not be bold, but rather appear as *Stars*. 
+-----
+\*Stars* will not be bold, but rather appear as *Stars*. + 
+$$*Stars*$$ will not be bold, but rather appear as *Stars*. +
++++*Stars*+++ will not be bold, but rather appear as *Stars*. +
+pass:[*Stars*] will not be bold, but rather appear as *Stars*. 
+
+-----
+The markup +++<u>underline me</u>+++ renders as underlined text. + 
+The markup pass:[<u>underline me</u>] produces the same result. 
+Triple plus and pass:[] are often used to output custom HTML or XML. 
+
+-----
+The markup +++<u>underline me</u>+++ renders as underlined text. + 
+The markup pass:[<u>underline me</u>] produces the same result. +
+Triple plus and pass:[] are often used to output custom HTML or XML. +
+This `*literal*` will appear as *literal* in a monospace font. +
+
+==== Replacements
+
+-----
+(C) (R) (TM) -- ... -> => <- <= Sam's &#8224;
+-----
+
+(C) (R) (TM) -- ... -> => <- <= Sam's &#8224;
+  
+==== Lists
+
+===== Lists of things
+
+asterisks(`*`) or hyphen(`-`)
+-----
+* Diray
+** Milk
+** Eggs
+* Bakery
+** Bread
+* Produce
+** Bananas
+
+You can have five levels.
+Hyphen only works for a single level since repeating hyphens are used for other purposes.
+-----
+
+* Diray
+** Milk
+** Eggs
+* Bakery
+** Bread
+* Produce
+** Bananas
+
+===== Ordering the things
+
+-------
+1. Protons
+2. Eletrons
+3. Neutrons
+
+
+. Lists
+.. Outline
+... Unordered
+... Ordered
+.. Labeled
+
+-------
+
+. Lists
+.. Outline
+... Unordered
+... Ordered
+.. Labeled
+
+You can also set the starting number using the `start` attribute.
+
+-----
+["lowerroman",start=5]
+. Five
+. Six
+[loweralpha,start=2]
+.. a
+.. b
+.. c
+. Seven
+
+arabic, loweralpha, lowerroman, upperalpha, upperroman
+-----
+["lowerroman",start=5]
+. Five
+. Six
+[loweralpha,start=2]
+.. a
+.. b
+.. c
+. Seven
+
+===== Titling a list
+
+You can give any block element, such as a list, a title by `prefixing the line with a dot immediately followed by the text (without space)`
+
+-----
+.Shopping list
+* Milk
+* Eggs
+* Bread
+-----
+
+.Shopping list
+* Milk
+* Eggs
+* Bread
+
+===== Labeled lists
+
+Each item in a labeled list consists of a term or phrase followed by::
+
+- a seprarator `::`
+- at least one space or endline
+- the items's content
+
+-----
+CPU:: The brain of the computer.  
+Hard drive:: Permanent storage for operating system and/or user files.  
+-----
+CPU:: The brain of the computer.  
+Hard drive:: Permanent storage for operating system and/or user files.  
+
+-----
+If you want the label and content appear on the same line. add horizontal style.
+
+[horizontal]
+CPU:: The brain of the computer.  
+Hard drive:: Permanent storage for operating system and/or user files.  
+-----
+
+[horizontal]
+CPU:: The brain of the computer.  
+Hard drive:: Permanent storage for operating system and/or user files.  
+
+
+===== Complex list content
+
+list continuation symbol: `+`
+
+image::./images/complex-lists.PNG[]
+
+* The header in AsciiDoc must start with a  
+document title.  
++  
+----  
+= Document Title  
+----  
++  
+NOTE: The header is optional.  
+* Optional Author and Revision information  
+immediately follows the header title.  
++  
+----  
+= Document Title  
+Doc Writer <doc.writer@asciidoc.org>  
+v1.0, 2013-01-01  
+---- 
+  
+===== Dividing lists
+
+place a line comment between them
+
+----
+* Apples  
+* Oranges  
+* Bananas 
+
+// 
+
+* Walnuts  
+* Almonds  
+* Cashews 
+----
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
