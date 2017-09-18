@@ -1,4 +1,5 @@
 = Learning Asciidoc
+:toc2:
 
 ==== 段落换行
 
@@ -87,7 +88,7 @@ pass:[*Stars*] will not be bold, but rather appear as *Stars*.
 The markup +++<u>underline me</u>+++ renders as underlined text. + 
 The markup pass:[<u>underline me</u>] produces the same result. 
 Triple plus and pass:[] are often used to output custom HTML or XML. 
-
+This `*literal*` will appear as *literal* in a monospace font.
 -----
 The markup +++<u>underline me</u>+++ renders as underlined text. + 
 The markup pass:[<u>underline me</u>] produces the same result. +
@@ -256,19 +257,139 @@ place a line comment between them
 * Cashews 
 ----
   
+==== Links and imgaes
+
+===== External links
+
+----
+http://asciidoc.org[AsciiDoc]
+----
+http://asciidoc.org[AsciiDoc]
+
+NOTE: AsciiDoc recognizes URLs that begin with `http://`, `https://`, `ftp://`, `irc://`.
+
+===== Target window and role attributes for links
+
+1. Enable `linkattrs` macro
++
+`:linkattrs:`
+2. Specify the name of target window or `^`.
++
+`pass:[http://google.com[Google,window="_blank"]]`
+3. Adding a role(CSS class)
++
+`pass:[http://google.com[Google^,role="external"]]`
+
+===== Links to relative files
+
+Linking to a file relative to the current document, use the `link:` prefix.
+[listing]
+link:editing-asciidoc-with-live-preview[Editing with Live Preview]
+
+===== Internal cross references
+
+A link to another location in the current document is called `cross reference`.
+
+The text of the link will be automatically generated from the title of the element, if one exists. If you want to `customize the linked text`, include it after the id, separated by a comma.
+[listing]
+The section <<content-is-king>> covers paragraphs in AsciiDoc.
+The section <<content-is-king,paragraphs>> covers paragraphs in AsciiDoc.
+
+===== Images
+
+[listing]
+images::sunset.jpg[]
+
+If you want to specify alt text, include it inside the square brackets.
+
+You can also give the image an id,a title(i.e.,caption),set its dimensions(width,height) and make it a link.
+
+----
+[[img-sunset]]
+.A mountain sunset
+image::sunset.jpg[Sunset,300,200,link="http://www/flickr.com"]
+----
+
+WARNING: Images are resolved relative to the value of the `imagesdir` document attribute, which defaults to an empty value. +
+You should use the `imagesdir` attribute to avoid hard coding the shared path to your images in every image macro.
+
+`*image inline*`: `image:`,only one colon.
+[listing]
+image: save.png[]
+
+==== Titles,titles,titles
 
 
+.three types of titles:
+1. Document title
+2. Section title
+3. Block title
 
+//
 
+===== Document title
 
+`*Document header*` contains  the `title`, `author`, `revision information` and `document-wide attributes`.
 
+----
+= Lightweight Markup Languages
+Doc Writer <doc.writer@asciidoc.org>
+v1.0, 2012-01-01
 
+According to Wikipedia...
+----
 
+`*Document attribute*` is used to toogle features or store reusable or replacement content.
 
+----
+= User Guide
+Doc Writer <doc.writer@asciidoc.org>
+v1.0, 2012-01-01
+:appversion: 1.0.0
+----
 
+//
 
+NOTE: There should be `no blank lines` between the first entry and the rest of the header.
 
+You can refer to this attribute anywhere in the document by surrounding the name in curly braces.
 
+[listing]
+The current version of the application is {appversion}
+
+Toggle settings or set configuration variables::
+1. You can define the `toc2` attribute to include a table of contents on the left side the document.
++
+2. To undefine an attribute, place a `!` at the end of the name.
++
+3. Set the base path to images, icons, stylesheets,js files:
++
+----
+:toc2:
+:linkcss!:
+
+:imagesdir: ./images
+:iconsdir: ./icons
+:stylesdir: ./styles
+:scriptdir: ./js
+----
+
+===== Section titles
+
+To have the processor `auto-number the sections`, define the `numbered` attribute in the document header.
+
+----
+:numbered:
+----
+
+===== Block titles
+
+----
+.TODO list
+- list1
+- list2
+- list3
+----
 
 
 
