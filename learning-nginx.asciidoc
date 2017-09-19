@@ -1,0 +1,16 @@
+= Learning Ngnix
+
+
+.proxy
+image::./images/nginx-proxy.png[proxy]
+
+.proxy次级反向代理
+image::./images/nginx-proxy-down.png[proxy]
+
+
+.负载均衡
+image::./images/nginx-load-balance.png[load balance]
+
+.跨域访问
+image::./images/nginx-corss-domain-access.png[cross domain access]
+
