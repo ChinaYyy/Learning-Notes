@@ -286,6 +286,8 @@ Linking to a file relative to the current document, use the `link:` prefix.
 [listing]
 link:editing-asciidoc-with-live-preview[Editing with Live Preview]
 
+有空格有`%20`转义即可
+
 ===== Internal cross references
 
 A link to another location in the current document is called `cross reference`.
