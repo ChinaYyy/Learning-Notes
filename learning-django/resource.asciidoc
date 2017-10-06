@@ -1,0 +1,12 @@
+= Learning Django Resource
+
+* https://www.zhihu.com/question/20176461[知乎django项目]
+* https://djangopackages.org/[DjangoPackages.org]
+* https://github.com/codingforentrepreneurs?tab=repositories[Github-codingforentrepreneurs]
+* https://github.com/tuner24/django-cms[Github-tuner24/django-cms]
+
+
+
+
+
+

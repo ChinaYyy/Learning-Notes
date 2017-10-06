@@ -1,0 +1,370 @@
+= Overview
+
+== Command Start
+
+* django版本
++
+----
+$ python -m django --version
+----
+* 创建工程
++
+----
+$ django-admin startproject mysite
+----
+* 运行服务器
++
+----
+$ python manage.py runserver 0.0.0.0:8000
+----
+* 创建App
++
+----
+$ python manage.py startapp polls
+----
+* 运行Shell
++
+----
+$ python manage.py shell
+----
+
+== Writting View
+
+.polls/view.py
+[source,python]
+----
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+----
+
+.polls/urls.py
+[source,python]
+----
+from django.conf.urls import url
+
+from . import views
+
+urlpatterns = [
+    url(r'^$', views.index, name='index')
+]
+----
+
+.urls.py
+[source,python]
+----
+from django.conf.urls import url,include
+from django.contrib import admin
+
+urlpatterns = [
+    url(r'^polls/', include('polls.urls')),
+    url(r'^admin/', admin.site.urls),
+]
+----
+
+=== 带参数的view
+
+.polls/views.py
+[source,python]
+----
+def detail(request,question_id):
+    return HttpResponse("You're looking at question %s." % question_id)
+----
+
+.polls/urls.py
+[source,python]
+----
+urlpatterns = [
+    url(r'^$', views.index, name='index'),
+    url(r'^(?P<question_id>[0-9]+)/$',views.detail,name='detail'),
+    url(r'^(?P<question_id>[0-9]+)/results/$', views.results, name='results'),
+    url(r'^(?P<question_id>[0-9]+)/vote/$',views.vote,name='vote')
+]
+----
+
+`(?P<question_id>[0-9]+)` 定义了传送给视图函数的名称和值
+
+=== 视图函数的返回值
+
+.返回HttpResponse
+1. 字符串
++
+[source,python]
+----
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    output = ', '.join([q.question_text for q in latest_question_list])
+    return HttpResponse(output)
+----
+2. 渲染模板
++
+[source,python]
+----
+from django.http import HttpResponse
+from django.template import loader
+
+from .models import Question
+
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    template = loader.get_template('polls/index.html')
+    context = {
+        'latest_question_list': latest_question_list,
+    }
+    return HttpResponse(template.render(context, request))
+----
+3. ShortCut：Render()
++
+[source,python]
+----
+from django.shortcuts import render
+
+from .models import Question
+
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    context = {'latest_question_list': latest_question_list}
+    return render(request, 'polls/index.html', context)
+----
++
+推荐保用render()，可以使model层与view层解藕
+
+.返回Http404
+1. Http404
++
+[source,python]
+----
+from django.http import Http404
+from django.shortcuts import render
+
+from .models import Question
+# ...
+def detail(request, question_id):
+    try:
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")
+    return render(request, 'polls/detail.html', {'question': question})
+----
+2. get_object_or_404()/get_list_or_404()
++
+[source,python]
+----
+from django.shortcuts import get_object_or_404, render
+
+from .models import Question
+# ...
+def detail(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'polls/detail.html', {'question': question})
+----
++
+推荐使用get
+
+=== Removing hardcoded URLs in templates
+
+{% url %}
+
+----
+<li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li>
+----
+
+=== Namespacing URL names
+
+polls/urls.py 定义 `app_name`
+
+{% url %} 使用`app_name:url_name`
+
+[source,python]
+----
+from django.conf.urls import url
+
+from . import views
+
+app_name = 'polls'
+urlpatterns = [
+    url(r'^$', views.index, name='index'),
+    url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
+    url(r'^(?P<question_id>[0-9]+)/results/$', views.results, name='results'),
+    url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
+]
+----
+
+----
+<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+----
+
+=== 泛型视图`Generic Views`
+https://docs.djangoproject.com/en/1.11/intro/tutorial04/#use-generic-views-less-code-is-better[Generic views]
+
+
+== 数据库Model
+
+.settings.py
+[source,python]
+----
+INSTALLED_APPS = [
+    'polls.apps.PollsConfig',
+
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+----
+.polls/models.py
+[source,python]
+----
+from django.db import models
+from django.utils import timezone
+
+import datetime
+
+class Question(models.Model):
+    question_text = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('date published')
+
+    def __str__(self):
+        return self.question_text
+
+    def was_published_recently(self):
+        return self.pub_date>timezone.now()-datetime.timedelta(days=1)
+
+class Choice(models.Model):
+    choice_text = models.CharField(max_length=200)
+    vote = models.IntegerField(default=0)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.choice_text
+
+----
+
+
+1. 表名会自动结合应用名称(polls)与模型类名，小写处理，例如polls_question,polls_choice
+2. 会自动添加主键(id), 可以覆写
+3. 外键字段名称会添加_id，可以覆写
+4. SQL语句会根据使用的数据库量身定制。
+5. `sqlmigrate`命令，只是用来打印查看sql语句，可以不用运行。
+
+
+
+.相关命令
+1. `$ python manage.py makemigrations polls`
+2. `$ python manage.py sqlmigrate polls 0001`
++
+通过migration名称返回SQL语句，无需运行
+3. `$ python manage.py check`
++
+检查，无需运行
+4. `$ python manage.py migrate`
++
+将会遍历查看`INSTALLED_APPS`中的设置，创建必要的数据库。
+
+.执行过程：
+1. 修改models
+2. makemigrations生成迁移文件(1)
+3. 应用migrate更新数据库(4)
+
+=== Model API
+
+----
+Question.objects.all()
+Question.objects.filter(id=1)
+Question.objects.filter(question_text__startswith='What')
+
+Question.objects.get(id=1)
+q = Question.objects.get(pk=1)
+
+q.choice_set.all()
+q.choice_set.count()
+
+c = q.choice_set.create(choice_text='Not much', votes=0)
+
+Choice.objects.filter(question__pub_date__year=current_year)
+c = q.choice_set.filter(choice_text__startswith='Just hacking')
+c.delete()
+----
+
+== Django Admain
+
+创建管理用户
+----
+$ python manage.py createsuperuser
+----
+
+将模型注册到admin
+
+.polls/admin.py
+[source,python]
+----
+from django.contrib import admin
+from .models import Question
+
+admin.site.register(Question)
+----
+
+
+== Form
+
+.polls/templates/polls/detail.html
+[source,python]
+----
+<form action="{% url 'polls:vote' question.id %}" method="POST">
+{% csrf_token %}
+{% for choice in question.choice_set.all %}
+
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text}}</label>
+    <br/>
+{% endfor %}
+
+</form>
+----
+
+.polls/views.py
+[source,java]
+----
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
+
+from .models import Choice, Question
+# ...
+def vote(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        # Redisplay the question voting form.
+        return render(request, 'polls/detail.html', {
+            'question': question,
+            'error_message': "You didn't select a choice.",
+        })
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+----
+
+
+1. request.POST['choice']来获取数据，可能会引志 `KeyError` 异常
+2. 处理完**POST**请求，返回值使用`HttpResponseRedirect`重定向，而非普通的HttpResponse对象。
+3. `reverse()`来生成url地址，避免硬编码
+4. 在views.py视图函数vote()中，如果两个用户同时投票，可能会引发数据错误。称为 https://docs.djangoproject.com/en/1.11/ref/models/expressions/#avoiding-race-conditions-using-f[`**race condition**`]
+
+== 单元测试
+
+link:how%20to.asciidoc#pycharm右键运行单元测试[pycharm 右键运行单元测试]
+
+
+
+
+
+
+
+
+
+

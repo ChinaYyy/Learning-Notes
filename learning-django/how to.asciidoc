@@ -1,0 +1,19 @@
+==== pycharm右键运行单元测试
+
+1. 运行前添加环境变量
+Run --> Edit Configiurations
+`DJANGO_SETTINGS_MODULE={{project-name}}.settings`
+2. test.py 导入django并紧接着django.setup()
++
+----
+import django
+django.setup()
+----
+
+==== Race Condition
+https://docs.djangoproject.com/en/1.11/ref/models/expressions/#avoiding-race-conditions-using-f[race condition]
+
+
+
+
+
