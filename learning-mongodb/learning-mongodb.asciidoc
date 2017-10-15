@@ -1,0 +1,35 @@
+# Learning MongoDB
+
+https://docs.mongodb.com/manual/[MongoDB Documentation]
+
+## Install
+
+
+https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-ubuntu/[Install on Ubuntu]
+
+----
+sudo service mongod start/stop/restart
+----
+config file: `/etc/mongod.conf`
+
+
+
+## MongoDB Package Components
+
+### mongoimport
+
+https://docs.mongodb.com/manual/reference/program/mongoimport/index.html[mongoimport document]
+----
+mongoimport --db test --collection restaurants --drop --file primer-dataset.json.txt
+----
+- -- host
+- -- port
+- -- username
+- -- password
+
+## Mongodb Compass
+
+To specify an ObjectId:
+----
+{ "_id": { "$oid": "58eee4f43d1a10a4e5339aac" } }
+----
