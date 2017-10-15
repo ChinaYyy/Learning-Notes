@@ -1,0 +1,35 @@
+# Commands
+
+## ls
+- -a --all包括隐藏文件
+- -l 详细信息(long)
+- -h size数据人类可读
+- -i inode值
+- -d 目录信息
+
+----
+-rw-r-----
+----
+首字符 `-` 表示文件； `d` 表示目录； `l` 表示软链接
+
+分别对应 `user`,`group`,`other` 的权限
+
+## mkdir
+
+- -p --parents 递归创建
+
+## cp
+
+----
+cp [option] file1 file2 desddir
+----
+
+- -r 对目录下面的内容递归操作
+- -p --preserve 保留指定的属性（模式，所有权，时间戳）
+
+NOTE： 可以操作多个路径，也可以改名
+
+
+
+
+
