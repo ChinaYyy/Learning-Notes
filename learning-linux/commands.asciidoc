@@ -27,9 +27,51 @@ cp [option] file1 file2 desddir
 - -r 对目录下面的内容递归操作
 - -p --preserve 保留指定的属性（模式，所有权，时间戳）
 
-NOTE： 可以操作多个路径，也可以改名
+NOTE: 可以操作多个路径，也可以改名
+
+## 文件操作
+
+- touch
+- cat [-n] 显示行号
+- more/less
+- head [-n]
+- tail [-nf]
+
+## ln
+
+----
+ln -s /etc/services /tmp/services.soft
+ln /etc/services /tmp/services.hard
+----
+
+## chmod
+
+针对文件
+
+- `r 4 cat/more/less/head/tail`
+- `w 2 vim`
+- `x 1 script command`
+
+针对目录
+
+- `r 4 ls`
+- `w 2 touch/mkdir/rm`
+- `x 1 cd`
+
+----
+chmod 777 somefile
+chmod 777 somedir
+chmod -R 777 somedir
+----
+
+`[-R]` 递归改变子文件夹及子文件的权限
 
 
+## chown/chgrp
 
+----
+chown yyy somedir
+chgrp [group] somedir
+----
 
-
+NOTE: 只有管理员才有 `chown` 的权限
