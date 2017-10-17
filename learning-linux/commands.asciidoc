@@ -75,3 +75,93 @@ chgrp [group] somedir
 ----
 
 NOTE: 只有管理员才有 `chown` 的权限
+
+
+## find
+
+1. 根据文件名称搜索
++
+----
+find /etc -name init     //精确搜索
+find /etc -name *init*   //通配符
+find /etc -iname init    //忽略大小写
+----
+
+2. 根据文件大小搜索 +
+size需要换算成数据块：1数据块=0.5k +
+100M = 100*1024＊2 = 204800
++
+----
+find -size +204800   //大于100M
+find -size -204800   //小于100M
+----
+
+3. 根据用户查找
++
+----
+find /home -user yyy
+find /home -group yyy
+----
+
+4. 根据时间属性查找
++
+----
+find /etc -amin -5    //访问时间access 5分钟
+find /etc -cmin -5    //文件属性change 5分钟
+find /etc -mmin -5    //文件内容modify 5分钟
+----
+
+5. 根据文件类型查找
++
+----
+find /etc -type f    // f文件
+find /etc -type d    // d目录
+find /etc -type l    // l软链接
+----
+
+6. 逻辑查找
++
+`-a` 表示and，`-o` 表示or
++
+----
+//查找大于80M小于100M的文件
+find /etc -size +163840 -a -size -204800
+----
+
+## locate
+
+----
+locate inittab
+locate -i inittab   //不区分大小写
+----
+
+手动更新文件资料库
+----
+updatedb
+----
+NOTE: loacte资料库不包含 `/tmp` 正面的文件
+
+## grep
+
+文件内容查找 +
+`-i` 不区分大小写 +
+`-v` 排除指定字符串
+----
+grep mysql /root/install.log
+grep -v ^# /etc/inittab        //删除#号开头的行
+----
+
+## man
+
+命令查看帮助信息
+
+----
+man ls
+man services   //查看配置文件的帮助信息，不需要绝对路径
+----
+
+shell内置命令要使用`help`
+
+----
+help cd
+----
