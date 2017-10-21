@@ -343,3 +343,8 @@ service [httpd] start
 ----
 /usr/local/apache2/bin/apachectl start    //只能用路径启动
 ----
+
+.su切换用户
+----
+su - [userA]      // 中间的 - 不能省略
+----
