@@ -369,3 +369,75 @@ su - [userA]      // 中间的 - 不能省略
 - `visodu` 修改的是 `/etc/visudoers`
 
 - `sudo -l`
+
+## 文件系统管理
+
+.主分区  扩展分区  逻辑分区
+image:../images/partition.png[分区]
+
+主分区+扩展分区最多只能有 `4` 个，扩展分区最多只能有 `1` 个。
+
+
+.df -- 各分区空间占用情况
+----
+df -h
+----
+
+.du 统计目录或文件大小
+----
+du -sh [目录/文件]
+----
+NOTE: `du` 命令需要扫描求总和，比较耗费资源
+
+.dumpe2fs 显示磁盘状态
+----
+dumpe2fs /dev/sda1
+----
+
+.mount 挂载命令
+- `mount [-l]` 查询系统中已经挂载的设备，`-l` 会显示卷标名称
+- `mount [-a]` 住所配置文件 `/etc/fstab` 自动挂载
+- `mount [-t文件系统][-L卷标名][-o特殊选项] 设备文件名 挂载点`
+- 挂载U盘
++
+----
+fdisk -l                 //查看U盘设备文件名
+
+mount -t vfat /dev/sdb1 /mnt/usb/
+----
+- 挂载光盘
++
+----
+mkdir /mnt/cdrom
+
+mount -t iso9660 /dev/cdrom /mnt/cdrom  //或者下面也行
+mount /dev/sr0 /mnt/cdrom
+
+umount /dev/sr0                         //缷载光盘
+----
+
+.fdisk 分区命令
+- `fdisk -l` 查询分区信息
+- `fdisk /dev/sdb`
+- `分区过程...`
+- `partprobe` 重新读取分区表信息,可以不用重启
+- `mkfs -t ext4 /dev/sdb1` 格式化分区
+- 创建挂载点，挂载分区
+- `df` `mount` 查询是否正常挂载
+
+.分区自动挂载
+- `/etc/fstab` 配置文件
++
+----
+第一字段：分区设备文件名或UUID，(dumpe2fs可以查看地uuid)
+第二字段：挂载点
+第三字段：文件系统名称
+第四字段：挂载参数
+第五字段：指定分区是否被dump备份，0代表不备份，1代表每天备份，2代表不定期备份
+第六字段：指定分区是否被fsck检测，0代表不检测，其他数字代表检测的优先级，1的优先级比2高
+----
+
+.fstab文件修复
+----
+mount -o remount,ew /
+----
