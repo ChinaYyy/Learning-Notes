@@ -439,5 +439,5 @@ umount /dev/sr0                         //缷载光盘
 
 .fstab文件修复
 ----
-mount -o remount,ew /
+mount -o remount,rw /
 ----
