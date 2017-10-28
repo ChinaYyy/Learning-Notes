@@ -101,11 +101,11 @@ PATH="$PATH":/root/sh
 ----
 test [-option] [object]
 或
-[-option object]
+[ -option object ]
 ----
 结束后需要使用 `echo $?` 来判断结果
 ----
-[-option object] && echo 'yes' || echo 'no'
+[ -option object ] && echo 'yes' || echo 'no'
 ----
 
 .根据文件判断类型
@@ -137,6 +137,17 @@ image::../images/shell-if-file-priv.png[根据文件权限判断类型]
 !条件
 ----
 
+## if语句
+----
+if [ 判断条件 ]
+    then
+        //程序语句
+    elif
+        //程序语句
+    else
+        //程序语句
+fi
+----
 
 ## commands
 ### echo
