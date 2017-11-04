@@ -1,0 +1,39 @@
+# Service Manage
+:toc:
+
+## 查询已安装的服务
+
+- RPM包安装的服务
+`chkconfig --list`
+- 源码包安装的服务
+`查看服务安装位置,不能用命令来查看`
+
+## 服务相关配置文件
+- `/etc/init.d/` 启动脚本位置
+- `/etc/sysconfig/` 初始化环境变量配置文件
+- `/etc/` 配置文件位置
+- `/etc/xinetd.conf` xinet配置文件
+- `/etc/xinetd.d` 基于xinetd服务的启动脚本
+- `/var/lib` 服务产生的数据
+- `/var/log` 日志
+
+## 服务启动
+
+.独立服务的启动
+----
+/etc/init.d/服务名 start|stop|status|restart
+
+//或
+
+service 服务名 start|stop|status|restart
+----
+
+.独立服务的自启动（开机启动）
+----
+chkconfig 服务名 on/off
+
+//或
+
+将启动命令写入/etc/rc.local  //推荐
+
+----
