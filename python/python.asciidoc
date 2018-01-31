@@ -1,0 +1,65 @@
+# Learning Python Skills
+
+## Import
+
+#### try import
+
+[source,python]
+----
+try:
+    import colorama
+except ImportError:
+    colorama = None
+----
+
+#### 导入模块名称太多需要换行
+```
+from Tkinter import (Tk, Frame, Button, Entry, Canvas, Text,
+                     LEFT, DISABLED, NORMAL, RIDGE, END)
+
+from tornado.util import (ObjectDict, raise_exc_info,
+                          unicode_type, _websocket_mask, PY3)
+```
+
+https://www.python.org/dev/peps/pep-0328/#id7[PEP 328 -- Imports: Multi-Line and Absolute/Relative]
+
+## 模块
+
+#### \__future__ 模块
+```
+from __future__ import absolute_import, division, print_function
+```
+- absolute_import:
+
+    ```
+    import foo  # 这样的导入都是绝对路径导入，相对路径导入都要以.开头
+    ```
+
+- print_function  在PY2中使用PY3的``print``函数 https://www.python.org/dev/peps/pep-3105/[PEP 3105 -- Make print a function]
+
+- division PY2中两个整数相除是地板除，没有小数部分。在PY2中使用PY3中的精确除法
+
+#### 与终端显示相关的模块
+
+- import colorama
+- import curses
+
+## 类
+
+#### 方法可能访问到类变量
+
+[source,python]
+----
+class T:
+
+    headers = ['NAME', 'AGE']
+
+    def __init__(self, headers=headers):
+
+        for header in headers:
+            print('--', header)
+
+    def run(self, headers=headers):
+        print(headers)
+
+----
