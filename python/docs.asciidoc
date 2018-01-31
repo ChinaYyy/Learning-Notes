@@ -1,0 +1,45 @@
+## 模块注释
+
+#### 列表展示
+
+```
+"""Logging support for Tornado.
+
+Tornado uses three logger streams:
+
+* ``tornado.access``: Per-request logging for Tornado's HTTP servers (and
+  potentially other servers in the future)
+* ``tornado.application``: Logging of errors from application code (i.e.
+  uncaught exceptions from callbacks)
+* ``tornado.general``: General-purpose logging, including any errors
+  or warnings from Tornado itself.
+
+These streams may be configured independently using the standard library's
+`logging` module.  For example, you may wish to send ``tornado.access`` logs
+to a separate file for analysis.
+"""
+```
+
+## 方法注释
+
+#### 参数说明
+
+```
+def __init__(self, fmt=DEFAULT_FORMAT, datefmt=DEFAULT_DATE_FORMAT,
+             style='%', color=True, colors=DEFAULT_COLORS):
+    r"""
+    :arg bool color: Enables color support.
+    :arg string fmt: Log message format.
+      It will be applied to the attributes dict of log records. The
+      text between ``%(color)s`` and ``%(end_color)s`` will be colored
+      depending on the level if color support is on.
+    :arg dict colors: color mappings from logging level to terminal color
+      code
+    :arg string datefmt: Datetime format.
+      Used for formatting ``(asctime)`` placeholder in ``prefix_fmt``.
+
+    .. versionchanged:: 3.2
+
+       Added ``fmt`` and ``datefmt`` arguments.
+    """
+```
