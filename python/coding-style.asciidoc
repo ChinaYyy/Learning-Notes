@@ -1,0 +1,30 @@
+# Coding Style
+
+## 多行
+
+#### 导入多行
+
+```
+from Tkinter import (Tk, Frame, Button, Entry, Canvas, Text,
+                     LEFT, DISABLED, NORMAL, RIDGE, END)
+
+from tornado.util import (ObjectDict, raise_exc_info,
+                          unicode_type, _websocket_mask, PY3)
+```
+
+#### 调用函数多行
+```
+options.define("log_to_stderr", type=bool, default=None,
+               help=("Send log output to stderr (colorized if possible). "
+                     "By default use stderr if --log_file_prefix is not set and "
+                     "no other logging is configured."))
+```
+
+## 函数
+
+列表参数的
+```
+application = tornado.web.Application([
+    (r"/", MainHandler),
+])
+```
