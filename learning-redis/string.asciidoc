@@ -1,0 +1,48 @@
+# String
+:toc:
+
+## 基本操作
+
+#### SET key value [NX|XX]
+
+可选项``NX``，在key不存在时，命令才会有效；``XX``，key存在时，才可靠
+
+获取值 ``GET key``
+
+#### SETNX key value
+
+仅在``key``不存在的情况下，将key的值设为value, 效果和``SET key value NX`` 一样
+
+成功返回``1``，失败返回``0``
+
+#### MSET key value [key value ...]
+
+一次为一个或多个字符串键设置值，效果和同时执行多个SET命令一样，返回OK
+
+MGET key[key ...]
+
+#### MSETNX key value [key value ...]
+
+只有在所有给定键都不存在的情况下， MSETNX会为所有给定键设置值。 如果给定的键至少有一个是存在的，那么MSETNX将不执行任何操作
+
+返回``1``表示设置成功；``0``表示失败
+
+#### GETSET key new-value
+
+将字符串键的值设置为new-value，并返回字符串键在设置新值之前存储的旧值。
+
+#### APPEND key value
+
+将值value推入到字符串键 key已存储内容的末尾
+```
+> SET name "yyy"
+OK
+> APPEND name "-Beijing"
+OK
+> GET name
+"yyy-Beijing"
+```
+
+#### STRLEN key
+
+返回字符串键key储存的值的长度
