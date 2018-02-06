@@ -1,6 +1,8 @@
 # String
 :toc:
 
+image::../images/redis-string-abstract.png[]
+
 ## 基本操作
 
 #### SET key value [NX|XX]
@@ -46,3 +48,107 @@ OK
 #### STRLEN key
 
 返回字符串键key储存的值的长度
+
+
+## 索引
+
+正数索引  0 -> N-1
+负数索引 -1 -> N
+
+#### SETRANGE key index value
+
+从索引index开始，覆写字符串值。返回覆写后的字符长度。
+
+```
+> SET msg "hello"
+OK
+> SETRANGE msg 1 "appy"
+OK
+> GET msg
+"happy"
+```
+
+#### GETRANGE key start end 范围取值
+
+返回位于start和end之间的内容（闭区间，start和end会包括在内），与SETRANGE来同，可以授受负数索引。
+
+```
+> SET msg "hello"
+OK
+> GETRANGE msg 1 3
+OK
+> GET msg
+"hell"
+```
+
+#### 增加/减少 数值
+
+INCRBY key increment
+DECRBY key increment
+
+如果键不存在，会先将值初始化为0，再进行操作.
+
+增一和减一命令::
+INCR key
+DECR key
+
+浮点数的自增自减::
+
+INCRBYFLOAT key increament
+
+## 二进制数据操作
+
+SET GET SETNX APPEND可以用于二进制数据
+
+```
+>>> import redis
+>>> r = redis.Redis()
+>>> r.set('bits', 0b10010100)
+True
+>>> bin(int(r.get('bits')))
+'0b10010100'
+>>> r.append('bits', 0b111)
+4L
+>>> bin(int(r.get('bits')))
+'0b10111001111'
+```
+
+二进制数据索引,从左到右依次递减
+
+image::../images/redis-binary-index.png[]
+
+.相关命令
+- SETBIT key index value
+- GETBIT key index
+- BITCOUNT key [start][end] 计算值为1的二进制的数量
+- BITOP operation destkey key[key ...] 二进制位运算
+
+## 注意事项
+
+#### 数字值,也可以执行APPEND STRLEN SETRANGE GETRANGE
+
+```
+> SET number 123
+OK
+> STRLEN number
+3
+> APPEND number 456
+6
+> GET number
+123456
+```
+#### 存储中文时的注意事项
+
+STRLEN, SETRANGE, GETRANGE不适用于中文
+
+```
+> SET msg '世界你好'
+OK
+> GET msg
+世界你好
+> STRLEN msg
+12
+```
+
+
+
