@@ -1,0 +1,77 @@
+# Hash 散列
+
+image:../images/redis-hash-coms.png[]
+
+使用散列的好外：
+
+* 将数据放到同一个地方
+* 避免键名冲突
+* 减少内存占用（键少了）
+
+只要有可能，尽量使用散列键而不是字符串键来储存值对数据，因为散列键管理方便、避免键名冲突、节约内存。
+
+一些没办法使用散列键来代替字符串键的发问：
+
+- 使用二进制位操作命令：Redis目前只支持对字符串键进行SETBIT GETBIT BITOP等操作
+- 使用过期功能：键过期功能目前只能对键进行过期操作
+
+
+## 基本操作
+
+#### HSET key field value
+
+在散列键key中关联给定的域值对field和value。
+
+如果域field之前没有关联值，返回1；如果已经有关联值，新值覆盖旧值，的返回0.
+
+```
+> HSET message "id" 10086
+1
+> HSET message "sender" "peter"
+1
+> HSET message "receiver" "jack"
+1
+```
+
+#### HGET key field
+
+返回散列键key中域field所关联的值。如果域没有关联值，返回nil。
+
+#### HSETNX key field value
+
+域field不存在时关联，存在则不操作。
+
+#### HDEL key field[field ...]
+
+删除散列键key中的一个或多个指定域
+
+#### HLEN key
+
+返回域值对的数量
+
+#### HEXISTS
+
+
+## 批量操作
+
+#### HMSET key field[key field ...]
+
+一次设置多个域值对
+
+#### HMGET key field[field ...]
+
+一次获取多个域值对
+
+#### 获取包含所有域、值、域值对
+
+- HKEYS key
+- HVALS key
+- HGETALL key
+
+## 数字操作
+
+- HINCRBY key field increment
+- HINCRBYFLOAT key field float
+
+
+
