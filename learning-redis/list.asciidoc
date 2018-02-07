@@ -1,0 +1,19 @@
+# List
+
+## 推入和弹出操作
+
+#### LPUSH key value[value ...]
+
+#### RPUSH key value[value ...]
+
+#### LPOP key
+
+#### RPOP key
+
+## 长度和范围操作
+
+#### LLEN key
+
+#### LINDEX key value
+
+#### LRANGE key start stop
