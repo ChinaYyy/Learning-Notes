@@ -1,0 +1,83 @@
+# Set
+
+image::../images/redis-set-coms.png[]
+
+## 元素操作
+
+#### SADD key element [element ...]
+
+已经存 的元素会自动被忽略
+
+返回新添加到集合的元素数量
+
+```
+> SADD friends "peter"
+(integer)1
+> SADD friends "jack" "tom" "john"
+(integer)3
+> SADD friends "may" "tom"
+(integer)1
+```
+
+#### SREM key element[element ...]
+
+不存在于集合中的元素会自动被忽略
+
+返回眲在并且被移除的元素数量
+
+#### SISMEMBER key element
+
+检查给定的元素是否存在于集合，存在，返回1；如果元素不存在或者键不存在，返回0
+
+#### SCARD eky
+
+返回集合包含的元素数量
+
+#### SMEMBERS key
+
+返回集合包含的所有元素
+
+当集合的基数比较大时，有可能会造成服务器阻塞，有更好的方式来迭代集合中的元素。
+
+#### SPOP key
+
+随机地从集合中移除并返回一个元素
+
+#### SRANDMEMBER key [count]
+
+从集合里面随机的返回元素，如果没有可靠的count参数，返回一个元素。
+
+如果给定了count参数：
+
+- 当count为正数，并且少于集合基数时，命令返回一个包含count个元素的数组，并且元素各不相同。
+- 如果count大于集合基数，返回整个集合
+- 当count为负数时，返回一个数组，元素可能重复出现多次，数量为count的绝对值
+
+与SPOP不同，SRANDMEMBER不会移除返回的元素
+
+
+## 集合运算操作
+
+#### SDIFF key [key ...]
+
+计算差集
+
+`SDIFFSTORE destkey key [key ...]` 会将结果存储到destkey
+
+#### SINTER key [key ...]
+
+计算交集
+
+`SINTERSTORE destkey key [key ...]`
+
+#### SUNION key [key ...]
+
+计算并集
+
+`SUNIONSTORE destkey key [key ...]`
+
+
+
+
+
+
