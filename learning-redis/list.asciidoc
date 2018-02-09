@@ -1,5 +1,7 @@
 # List
 
+image::../images/redis-list-coms.png[]
+
 ## 推入和弹出操作
 
 #### LPUSH key value[value ...]
@@ -17,3 +19,57 @@
 #### LINDEX key value
 
 #### LRANGE key start stop
+
+
+## 插入和删除操作
+
+#### LSET key index value
+
+#### LINSERT key BEFORE|AFTER pivot value
+
+根据BEFORE|AFTER选项，将value插入到指定列表项pivot之前或之后。
+
+当pivot不存在时，不执行任何操作。
+
+返回-1，表示pivot不存在，返回0表示key不存在；插入成功返回列表当前的长度。
+
+#### LREM key count value
+
+根据参数count的值，移除列表中与参数value相等的列表项
+
+- 如果count>0，那么从表头开始向表尾搜索，移除最多count个值为value的列表项
+- 如果count<0，那么从表尾开始向表头搜索，移除最多count个值为value的列表项
+- 如果count=0，那么移除列表中所有值为value的项。
+
+#### LTRIM key start stop
+
+修剪列表，闭区间
+
+## 阻塞式弹出操作
+
+#### BLPOP key[key ...] timeout
+
+从左向右的顺序，访问给定的各个列表，并弹出首个非空列表最左端的项。
+
+timeout参数为0，表示永远阻塞
+
+从右向左的命令为 BRPOP key[key ...]  timeout
+
+```
+> BLPOP empty-1 empty-2 emptu-3 5  # 依次访问三个列表，都为空，阻塞
+(nil)    # 返回nil表示等待超时
+(5.07s)  # 客户端被阻塞的时长
+
+> RPUSH lst "one" "two" "three"
+(integer)3
+
+> BLPOP empty-1 empty-2 lst 5
+1)"list"  # 执行弹出的列表
+2)"one"   # 被弹出的项
+
+> BLPOP empty-1 empty-2 empty-3 5   # 在阻塞的过程中，有列表可以执行弹出操作
+1)"empty-3"
+2)"hello"
+(1.84s)   # 客户端被阻塞的时长
+```
+
