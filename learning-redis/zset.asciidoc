@@ -1,5 +1,7 @@
 # ZSet
 
+image::../images/redis-zset-comms.png[]
+
 有序集合和集合一样，都可以包含任意数量的、各不相同的元素(element)，不同于集合的是，有序集合的每个元素都关联着一个浮点数分值(score)，
 并且有序集合会按照值，以从小到大的顺序排列有序集合中的各个元素。
 
@@ -70,3 +72,27 @@ increment可以为负数。
 移除分值范围介于min和max之间的所有元素
 
 ## 集合运算操作
+
+#### ZUNIONSTORE destkey numkeys key [key ...]
+
+```
+> ZADD fruits-8-13 300 "apple" 200 "banana" 150 "cherry"
+(integer)3
+> ZADD fruits-8-14 250 "apple" 300 "banana" 100 "cherry"
+(integer)3
+> ZUNIONSTORE fruits-8-13&14 2 fruits-8-13 fruits-8-14
+(integer)3
+
+> ZRANGE fruit-8-13&14 0 -1 WITHSCORES
+1)"chrry"
+2)250
+3)"banana"
+4)500
+5)"apple"
+6)550
+```
+
+如果参与并集计算的集合比较多，那么Redis服务器可能会被阻塞，因此最好在空余时间
+或者备用服务器上进行计算。
+
+#### ZINTERSTORE destkey numkeys key [key ...]
