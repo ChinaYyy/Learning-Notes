@@ -1,0 +1,72 @@
+# ZSet
+
+有序集合和集合一样，都可以包含任意数量的、各不相同的元素(element)，不同于集合的是，有序集合的每个元素都关联着一个浮点数分值(score)，
+并且有序集合会按照值，以从小到大的顺序排列有序集合中的各个元素。
+
+虽然有序集合中的每个元素都必须是各不相同的，但元素的分值并没有这一限制，两个不同元素的分值可以是相同的。
+
+## 基本操作
+
+#### ZADD key score element [[score element] ...]
+
+#### ZREM key element [element ...]
+
+#### ZSCORE key element
+
+返回有序集合中，指定元素的分值
+
+#### ZINCRBY key increment element
+
+为有序集合指定元素的分值加上增量increment，命令返回执行之后的元素分值。
+
+increment可以为负数。
+
+#### ZCARD key
+
+返回有序集合包含的元素数量
+
+#### ZRANK key element
+
+返回指定元素在有序集合中的排名，其中排名按照元素的分值从小到大来计算。
+
+排名从0开始。
+
+#### ZREVRANK key element
+
+返回成员在有序集合中的逆序排名。
+
+排名从0开始
+
+## 范围操作
+
+基于有序集合的排序性质，对某种范围之内的多个元素进行操作。
+
+#### ZRANGE key start stop [WITHSCORES]
+
+返回有序集合在按照分值从小到大排列元素（升序排列）的情况下，索引start到stop范围之内的所有元素。
+
+两个索引可以是正数或者负数。
+
+给定WITHSCORES选项时，命令会把元素和分值一并返回。
+
+`ZREVRANGE key start stop [WITHSCORES]` 有序集合降序排列。
+
+#### ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]
+
+有序集合**按照分值升序排列元素**的情况是下，分值在min和max之间的所有元素。
+
+指定WITHSCORES选项时，元素和分值一并返回
+
+#### ZCOUNT key min max
+
+#### ZREMRANGEBYRANK key start stop
+
+移除有序集合中，元素按升序进行排列的情况下，指定排名内的所有元素。
+
+排名可以用正数或负数
+
+#### ZREMRANGEBYSCORE key min max
+
+移除分值范围介于min和max之间的所有元素
+
+## 集合运算操作
