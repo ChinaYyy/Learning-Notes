@@ -1,0 +1,63 @@
+# HyperLogLog
+
+使用常量空间估算大量元素的基数
+
+2.8.9版本添加
+
+HyperLogLog可以接受多个元素作为输入，并给出输入元素的基数估算值。
+
+基数:: 集合中不同元素的数量。{'apple','banana','chery','banana','apple'}的基数就是3。
+
+估算值:: 算法给出的基数并不是精确的，可能会比实际稍微多一些或者稍微少一些，但会控制在合理的范围之内。
+
+在Redis时硕，每个HyperLogLog键只花费12KB的内存，就可以计算接近2^64个不同元素的基数。
+这和计算基数时，元素越多耗费内存就越多的集合形成鲜明对比。
+
+但是，因为HyperLogLog只会根据输入元素来计算基数，而不会储存输入元素本身，所以HyperLogLog不能像集合
+那样，返回输入的各个元素。
+
+#### PFADD key element [element ...]
+
+如果HyperLogLog在执行命令后出现了变化，返回1，否则返回0。
+
+复杂度为O(N)，N为添加元素的数量
+
+#### PFCOUNT key [key ...]
+
+当给定一个HyperLogLog时，命令返回给定的基数估算值
+
+当给定多个时，命令会先对给定的HyperLogLog进行并集计算，然后返回合并HyperLogLog的基数估算值。
+这个结果不会储存，使用之后就会被删除。
+
+当命令作用于单个HyperLogLog时，复杂度为O(1)，并且具有非常低的平均常数时间。
+当命令作用于多个HyperLogLog时，复杂度为O(N)，并且常数时间也比处理单个HyperLogLog时要大的多。
+
+```
+> PFADD unique::ip::counter '192.168.0.1'
+(integer) 1
+> PFADD unique::ip::counter '127.0.0.1'
+(integer) 1
+> PFADD unique::ip::counter '255.255.255.255'
+(integer) 1
+
+> PFCOUNT unique::ip::counter
+(integer) 3
+```
+
+#### PFMERGE destkey sourcekey [sourcekey ...]
+
+将多个HyperLogLog合并为一个HyperLogLog，合并后的基数估算值是进行并集计算得出的。
+
+命令的复杂度为O(N)，N为被合并的HyperLogLog的数量，不过这个常数复杂度较高。
+
+.不同数量的独立IP，耗费内存数量
+[width="80%",options="header"]
+|==============================
+| 独立IP数量 | 一天 | 一个月 | 一年 | 一年(使用集合)
+
+| 一百万 | 12KB | 360KB | 4.32MB | 5.4GB
+| 一千万 | 12KB | 360KB | 4.32MB | 54GB
+| 一亿   | 12KB | 360KB | 4.32MB | 540GB
+|==============================
+
+可以看到，要统计相同数量的独立IP，HyperLogLog所需要的内存要比集合少的多。
