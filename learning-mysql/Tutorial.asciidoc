@@ -42,3 +42,44 @@ On Unix, you can also disconnect by pressing control+D.
 |`>	    |   Waiting for next line, waiting for completion of an identifier that began with a backtick (`)
 |/*>    |	Waiting for next line, waiting for completion of a comment that began with /*
 |===========
+
+## Creating and Using a Database
+
+#### Creating and Selecting a Database
+
+```
+mysql> SHOW DATABASES;
+
+mysql> CREATE DATABASE menagerie;    // 数据库名称大小写敏感。
+mysql> USE menagerie
+
+mysql> GRANT ALL ON menagerie.* TO 'your_mysql_name'@'your_client_host';
+```
+
+命令行可以直接连接到指定数据库
+```
+shell> mysql -h host -u user -p menagerie
+Enter password: ********
+```
+
+#### Creating a Table
+
+```
+mysql> SHOW TABLES;
+Empty set (0.00 sec)
+
+mysql> CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20),
+    -> species VARCHAR(20), sex CHAR(1), birth DATE, death DATE);
+
+mysql> DESCRIBE pet;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| name    | varchar(20) | YES  |     | NULL    |       |
+| owner   | varchar(20) | YES  |     | NULL    |       |
+| species | varchar(20) | YES  |     | NULL    |       |
+| sex     | char(1)     | YES  |     | NULL    |       |
+| birth   | date        | YES  |     | NULL    |       |
+| death   | date        | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+```
