@@ -1,0 +1,102 @@
+# 数据库命令
+
+## 处理数据库中的单个键
+
+#### TYPE key
+
+返回key储存的值的类型。
+
+[width="60%", cols="2,8", options="header"]
+|===================
+| 返回值  |  值的类型
+
+| none    |  键不存在
+| string  |  字符串或者HyperLogLog
+| hash    |  散列
+| list    |  列表
+| set     |  集合
+| zset    |  有序集合
+|===================
+
+#### DEL key[key ...]
+
+删除键，不存在的键会忽略，命令返回被成功删除的键的数量。
+
+#### EXISTS key
+
+给定的键是否存在于数据库，存在返回1，不存在返回0。
+
+#### RENAME key newkey
+
+将键的名字从key改为newkey，如果newkey已经存在，那么覆盖它。
+
+键key不存在，或者key和newkey同名时，返回错误。修改成功返回OK。
+
+#### RENAMENX key newkey
+
+如果键newkey不存在，那么将键key改名为newkey，已经存在，不做动作。
+
+#### SORT
+
+SORT key [BY pattern][LIMIT offset count][GET pattern [GET pattern]]
+[ASC|DESC][ALPHA][STORE destination]
+
+#### RANDOMKEY
+
+随机获取某个键
+
+#### KEYS pattern
+
+返回当前数据库中，所有匹配给定模式pattern的键
+
+- KEYS *
+- KEYS H?LLO
+- KEYS H*LLO
+- KEYS H[AE]LLO
+
+KEYS命令会一次性的遍历整个数据库来获取所有与给定模式相匹配的键，所以数据库
+包含的键值对多的时候，执行速度会变慢，服务器被阻塞一段时间。
+
+从2.8.0开始提供``SCAN``命令，以渐进的方式，分多次来遍历整个数据库。
+
+#### SCAN cursor [MATCH pattern][COUNT number]
+
+COUNT number选项指定这次遍历最多要返回多少个键，命令实际返回的键数量可能比
+这个少，也可能一个键也不返回。只要返回的游标值不为0，说明遍历尚未结束。
+number参数的默认值为10。
+
+SCAN命令使用的算法可以保证可能会返回同一个键多次，要求无重复的用户需要在客
+户端里面进行过滤。
+
+.其他渐进遍历命令
+- ``SSCAN key cursor [MATCH pattern][COUNT number]`` 代替SMEMBERS命令，
+遍历集合包含的各个元素。
+- ``HSCAN key cursor [MATCH pattern][COUNT number]`` 代替HGETALL
+- ``ZSCAN key cursor [MATCH pattern][COUNT number]`` 代替ZRANGE
+
+## 处理数据库本身
+
+Redis服务器在默认情况下会创建16个数据库，分别为0号至15号数据库。客户端一般
+默认使用0号数据库，用户可以通过``SELECT num``命令来切换到num号数据库。
+
+每个数据库都是独立的（不同的命名空间）。
+
+#### SELECT num
+
+切换数据库
+
+#### DBSIZE
+
+返回目前包含的键值对数量。
+
+O(1)。
+
+#### MOVE key target-db
+
+#### FLUSHDB
+
+删除所有键值对。总是返回OK。
+
+#### FLUSHALL
+
+清空Redis服务器包含的所以数据库
