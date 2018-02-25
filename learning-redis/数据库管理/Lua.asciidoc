@@ -1,0 +1,73 @@
+# Lua脚本
+
+使用脚本可以直接在服务器端执行Redis命令，一般数据处理操作可以直接使用Lua语言或者
+Lua解释器提供的函数库来完成，不必再返回给客户端进行处理。
+
+所有脚本都是以事务的形式来执行的，脚本在执行过程中不会被其他工作打断，也不会引起
+任何竞争条件，完全可以使用Lua脚本来代替事务和乐观锁。
+
+所有脚本都是可重用的。
+
+#### EVAL script numkeys key[key ...] arg[arg ...]
+
+- script 参数是要执行的Lua脚本
+- numkeys 是脚本要处理的数据库键的数量。可以通过KEYS[N]来取得，从1开始。
+- arg 参数指定了脚本要用到的参数，可以全用ARGV[N]来获取，从1开始。
+
+```
+redis> EVAL "return {KEYS[1], KEYS[2], ARGV[1], ARGV[2]}" 2 "msg" "age" 123 "hello world"
+1) "msg" # KEYS[1]
+2) "age" # KEYS[2]
+3) "123" # ARGV[1]
+4) "hello world" # ARGV[2]
+```
+
+通过调用redis.call()函数或redis.pcall()函数可以直接在Lua脚本里面执行Redis命令。
+
+区别。当执行的脚本出错时，call()会返回出错的脚本的名字和错误信息；pcall()只返回错
+误信息。
+
+#### redis-cli --eval ...
+
+zdecrby.lua
+
+```
+local old_score = redis.call('ZSCORE', KEYS[1], ARGV[2])
+local new_score = old_score - ARGV[1]
+return redis.call('ZADD', KEYS[1], new_score, ARGV[2])
+```
+
+``$redis-cli --eval zdecrby.lua salary 300 peter``
+
+#### EVALSHA sha1 numkeys key[key ...] arg[arg ...]
+
+#### SCRIPT EXISTS sha1 [sha1 ...]
+
+脚本是否已经加入到脚本缓存里了，是的话，返回1。
+
+#### SCRIPT LOAD script
+
+将脚本加载到脚本缓存中。
+
+#### SCRIPT FLUSH
+
+清除所有的脚本缓存。
+
+#### SCRIPT KILL
+
+杀死运行超时的脚本。如果脚本已经持妊过写入操作。还需要使用``SHUTDOWN NOSAVE``命令
+来强制服务器不保存数据，以免错误的数据被保存到数据库里面。
+
+## 函数库
+
+.标准库
+- base 库
+- string 库
+- table 库
+- math 库
+- debug 库
+
+.外部库
+- struct 库
+- cjson 库
+- cmsgpack 库
