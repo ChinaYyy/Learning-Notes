@@ -44,3 +44,57 @@ EXPIRE命令。
 也可以用``SET key value [EX seconds][PX millseconds]``命令。
 
 ``PSETEX key milliseconds value``
+
+## 发布与订阅功能
+
+Redis的发布与订阅功能可以让用户将消息同时发送给多个客户端。
+
+这个功能由以下几个不同的角色协作完成：
+
+- 发布者（publisher）：发布消息的客户端。
+- 频道（channel）：构建在服务器内部，负责接收发布者发送的消息，并将消息转发给
+频道的订阅者。
+- 模式（pattern）：构建在服务器内部，负责对频道进行匹配，当被匹配的频道接到消
+息时，模式也会将消息转发给模式的订阅者。
+- 订阅者（subscriber）：通过订阅频道或者模式来获取消息的客户端。每个频道或者
+模式都可以有任意多个订阅者。
+
+
+.频道的订阅与消息发布
+image::../../images/redis-pubsub-pub.png[]
+
+.模式的订阅与消息发布
+image::../../images/redis-pubsub-pattern.png[]
+
+#### SUBSCRIBE channel [channel ...]
+
+订阅给定的一个或多个频道。
+
+#### PSUBSCRIBE pattern [pattern ...]
+
+订阅一个或多个模式，pattern可以包含glob风格的匹配符。
+
+#### UNSUBSCRIBE channel [channel ...]
+
+退订频道
+
+redis-cli的客户端直接退出可以退订；而Python或Ruby的客户端需要显示执行退订
+命令。
+
+#### PUNSUBSCRIBE pattern [pattern ...]
+
+退订模式
+
+#### PUBLISH channel message
+
+将消息发布到指定频道，命令返回接收到消息的订阅者的数量。
+
+#### PUBSUB CHANNELS [pattern]
+
+列出目前至少有一个订阅者的频道。
+
+``PUBSUB NUMBER [channel-1 ... channel-N]``返回频道订阅者的数量。
+
+#### PUBSUB NUMPAT
+
+返回服务器目前被订阅的模式数量。
