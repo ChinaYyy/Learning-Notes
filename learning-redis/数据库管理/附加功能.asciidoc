@@ -147,3 +147,20 @@ redis> EXEC
 1) OK # SET 命令的返回值
 2) (integer) 1 # EXPIRE 命令的返回值
 ```
+
+## 乐观锁
+
+使用锁来保证数据的正确性
+
+#### WATCH key [key ...]
+
+为了消除竞争条件，需要用到WATCH命令，这个命令需要在开始一个事务之前执行，它接受
+多个键作为参数，并对输入的键进行监视。
+
+image::../../images/redis-watch-race-condition.png[]
+
+#### UNWATCH
+
+取消对所有键的监视。
+
+``DISCARD``放弃执行事务，并且取消对所有键的监视（相当于UNWATCH）。
