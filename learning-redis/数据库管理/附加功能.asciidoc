@@ -98,3 +98,27 @@ redis-cli的客户端直接退出可以退订；而Python或Ruby的客户端需�
 #### PUBSUB NUMPAT
 
 返回服务器目前被订阅的模式数量。
+
+## 流水线
+
+通过减少客户端与服务器之间的通信次数来提高程序的执行效率。
+
+```
+from redis import Redis
+
+client = Redis()
+
+pipeline = client.pipeline(transaction=False)
+pipeline.incr('tag::jack::score')
+pipeline.incr('tag::peter::score')
+pipeline.incr('tag::mary::score')
+pipeline.incr('tag::kafka::score')
+
+pipeline.execute()
+```
+
+结果会在一个命令回复中被返回。
+
+```
+[10087,5001,3421,1001]
+```
