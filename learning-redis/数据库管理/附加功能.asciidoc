@@ -122,3 +122,28 @@ pipeline.execute()
 ```
 [10087,5001,3421,1001]
 ```
+
+## 事务
+
+Redis的事务功能允许用户将多个命令包裹起来，然后一次性地、按顺序地执行所有命令。
+
+在事务执行的过程中，服务器不会中断事务而改去执行其他命令请求，只有在事务包裹的
+命令都被执行完毕后，服务器才会去处理其他命令请求。
+
+#### 事务命令
+
+- ``MULTI`` 开始一个新的事务。
+- ``DISCARD`` 放弃事务。
+- ``EXEC`` 执行事务中的所有命令。
+
+```
+redis> MULTI
+OK
+redis> SET msg "hello world"
+QUEUED
+redis> EXPIRE msg 10086
+QUEUED
+redis> EXEC
+1) OK # SET 命令的返回值
+2) (integer) 1 # EXPIRE 命令的返回值
+```
