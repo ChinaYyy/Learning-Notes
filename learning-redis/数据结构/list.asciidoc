@@ -1,6 +1,6 @@
 # List
 
-image::../images/redis-list-coms.png[]
+image::../../images/redis-list-coms.png[]
 
 ## 推入和弹出操作
 

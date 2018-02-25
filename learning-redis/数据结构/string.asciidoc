@@ -1,7 +1,7 @@
 # String
 :toc:
 
-image::../images/redis-string-abstract.png[]
+image::../../images/redis-string-abstract.png[]
 
 ## 基本操作
 
@@ -115,7 +115,7 @@ True
 
 二进制数据索引,从左到右依次递减
 
-image::../images/redis-binary-index.png[]
+image::../../images/redis-binary-index.png[]
 
 .相关命令
 - SETBIT key index value

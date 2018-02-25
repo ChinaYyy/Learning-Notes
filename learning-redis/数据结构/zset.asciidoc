@@ -1,6 +1,6 @@
 # ZSet
 
-image::../images/redis-zset-comms.png[]
+image::../../images/redis-zset-comms.png[]
 
 有序集合和集合一样，都可以包含任意数量的、各不相同的元素(element)，不同于集合的是，有序集合的每个元素都关联着一个浮点数分值(score)，
 并且有序集合会按照值，以从小到大的顺序排列有序集合中的各个元素。

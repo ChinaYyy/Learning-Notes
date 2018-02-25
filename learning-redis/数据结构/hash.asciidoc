@@ -1,6 +1,6 @@
 # Hash 散列
 
-image:../images/redis-hash-coms.png[]
+image:../../images/redis-hash-coms.png[]
 
 使用散列的好外：
 

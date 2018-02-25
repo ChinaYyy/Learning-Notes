@@ -1,6 +1,6 @@
 # Set
 
-image::../images/redis-set-coms.png[]
+image::../../images/redis-set-coms.png[]
 
 ## 元素操作
 
