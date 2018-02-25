@@ -1,0 +1,46 @@
+# 附加功能
+
+## 键过期功能
+
+#### EXPIRE key seconds
+
+将key的生存时间设置为指定秒数。
+
+如果指定的键不存在，返回0；设置成功返回1。
+
+``PEXPIRE key millseconds`` 设置为毫秒数。
+
+#### EXPIREAT key timestamp
+
+将key的过期时间设置为指定秒级UNIX时间戳。
+
+``PEXPIREAT key milliseconds-timestamp`` 毫秒级。
+
+#### TTL key
+
+返回键的剩余生存时间，单位为秒。
+
+- 返回-2，键不存在；
+- 返回-1，键存在，但没有设置过期时间或生存时间。
+- 返回>=0，剩余时间。
+
+``PTTL key``单位为毫秒。
+
+#### PERSIST key
+
+移除键的过期时间或生存时间。
+
+移除成功返回1，否则返回0。
+
+#### SETEX key seconds value
+
+```
+SET key value
+EXPIRE key seconds
+```
+这两个命令经常出现，在2.0版本，新增了SETEX命令，相当于原子地执行SET命令和
+EXPIRE命令。
+
+也可以用``SET key value [EX seconds][PX millseconds]``命令。
+
+``PSETEX key milliseconds value``
