@@ -46,7 +46,7 @@ from __future__ import absolute_import, division, print_function
 
 ## 类
 
-#### 方法可能访问到类变量
+#### 方法能访问到类变量
 
 [source,python]
 ----
