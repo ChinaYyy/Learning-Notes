@@ -1,0 +1,6 @@
+# Device Information
+
+- free -m
+- cat /etc/proc/cpuinfo
+- df /
+- file /bin/ls               # 位数
