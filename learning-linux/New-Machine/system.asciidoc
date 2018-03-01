@@ -1,0 +1,22 @@
+# System
+
+## 启动级别
+
+Ubuntu：
+
+可能通过``runlevel``来查看当前的启动级别。
+
+```
+/etc/init/rc-sysinit.conf
+
+0 – Halt，关机模式
+1 – Single，单用户模式
+2 - Full multi-user with display manager (GUI)
+3 - Full multi-user with display manager (GUI)
+4 - Full multi-user with display manager (GUI)
+5 - Full multi-user with display manager (GUI)
+6 – Reboot，重启
+
+默认为2
+```
+
