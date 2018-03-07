@@ -1,0 +1,14 @@
+# 忘记root密码
+
+MySQL5.7
+
+```
+mysqld_safe --skip-grant-tables&
+
+update mysql.user set authentication_string=password('111111');
+或
+update mysql.user set authentication_string=password('123qwe') where user='root' and Host = 'localhost';
+
+flush privileges;
+
+```
