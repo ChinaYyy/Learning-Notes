@@ -1,0 +1,25 @@
+# Warngings
+
+## 默认参数不要使用空列表
+
+```
+def func(l=[]):
+    l.append('a')
+    print l
+
+>>>func()
+['a']
+>>>func()
+['a', 'a']
+```
+
+使用空容器很奇怪，空容器只会生成**一次**！！
+这种情况下正确的使用方法是l=None
+
+```
+def func(l=None):
+    if l is None；
+        l = []
+    l.append('a')
+    print l
+```
