@@ -1,0 +1,13 @@
+# Shards
+
+- primary shard 主分片
+- replica shard 复制分片
+
+主分片和复制集数量在index创建的时候，已经确定。复杂集数量后面可以修改，**主分片数不能修改。**
+
+默认是5个primary shard，1个relica。
+
+每个shard实际上是一个lucene index, 它有最大文档数量限制（2,147,483,519）。
+
+
+

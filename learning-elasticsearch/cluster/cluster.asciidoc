@@ -1,0 +1,17 @@
+# Cluster
+
+集群有唯一的标识名称 ``cluster name``, 这个名称非常重要，因为一个节点只能加入到相同cluster name的集群中。
+
+所以不同的环境，要使用不同的集群名称，否则机器会加入到错误的集群里。
+
+例如，可以使用``logging-dev``, ``logging-stage``, ``logging-prod``来进行区别。
+
+
+## Cluster.name
+
+ES在启动时可以指定集群名、节点名
+
+```
+./elasticsearch -Ecluster.name=my_cluster_name -Enode.name=my_node_name
+```
+

@@ -1,0 +1,15 @@
+# Aggregations
+
+```
+GET /bank/_search
+{
+  "size": 0,                    # not show search hits
+  "aggs": {
+    "group_by_state": {
+      "terms": {
+        "field": "state.keyword"
+      }
+    }
+  }
+}
+```

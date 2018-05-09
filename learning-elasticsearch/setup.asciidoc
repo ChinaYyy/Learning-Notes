@@ -1,0 +1,39 @@
+# Setup
+
+
+## Start
+
+```
+./bin/elasticsearch -d -p pid
+```
+
+- d daemon
+
+## stop
+
+```
+kill `cat pid`
+```
+
+## Configuation
+
+```
+path:
+  logs: /var/log/elasticsearch
+  data: /var/data/elasticsearch
+```
+
+path 默认路径在``$ES_HOME``的子文件夹下, 这是有风险的，比如要升级es时，删除es目录。
+
+```
+path:
+  data:
+    - /mnt/elasticsearch_1
+    - /mnt/elasticsearch_2
+    - /mnt/elasticsearch_3
+```
+
+path.data 路径可以接受多个路径，但同一个shard的文件，只会保存在一个路径下的。
+
+
+

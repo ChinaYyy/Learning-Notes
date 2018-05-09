@@ -1,0 +1,17 @@
+# DocumentAPI
+
+
+
+## bulk
+
+```
+POST /customer/_doc/_bulk?pretty
+{"index":{"_id":"1"}}
+{"name": "John Doe" }
+{"update":{"_id":"1"}}
+{"doc": { "name": "John Doe becomes Jane Doe" } }
+{"delete":{"_id":"2"}}
+```
+
+批量操作中，有操作失败，继续向下执行其他操作。
+操作结束后，每个操作都会返回一个status，可以通过check这个列表来确定是否有失败的操作。

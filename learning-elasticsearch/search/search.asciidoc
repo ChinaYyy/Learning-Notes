@@ -1,0 +1,44 @@
+# Search
+
+```
+GET /bank/_search
+{
+  "query": { "match_all": {} },
+  "_source": ["field",]  # select fields
+  "from":0,              # default 0
+  "size":10,             # default 10
+  "sort": [
+    { "account_number": "asc" }
+  ]
+}
+```
+
+## Bool
+
+- must
+- should
+- must_not
+
+*filter* in bool query.
+
+```
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "address": "mill" } },
+        { "match": { "address": "lane" } }
+      ],
+      "filter": {
+        "range": {
+          "balance": {
+            "gte": 20000,
+            "lte": 30000
+          }
+        }
+      }
+    }
+  }
+}
+```
