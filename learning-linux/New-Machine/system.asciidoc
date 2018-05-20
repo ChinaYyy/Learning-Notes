@@ -20,3 +20,6 @@ Ubuntu：
 默认为2
 ```
 
+## SSH
+
+`ssh-kengen`, 生成 `~/.ssh/id_rsa`(密钥) 和 `~/.ssh/id_rsa.pub`(公钥)
