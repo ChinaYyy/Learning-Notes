@@ -1,5 +1,15 @@
 = Learning Ngnix
 
+## install
+
+```
+./configure
+
+make
+sudo make install
+```
+
+
 
 .proxy
 image::./images/nginx-proxy.png[proxy]
