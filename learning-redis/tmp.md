@@ -15,6 +15,18 @@
 
 #### connect
 
+
+```
+redis.Redis(
+                host=config('REDIS_HOST'),
+                db=config('REDIS_DB'),
+                port=config('REDIS_PORT'),
+                socket_timeout=2,
+                socket_connect_timeout=2
+            )
+```
+
+
 ```
 client = redis.StrictRedis.from_url('redis://redis:111111@192.168.254.20:6379/0')
 
