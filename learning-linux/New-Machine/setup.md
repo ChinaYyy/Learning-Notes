@@ -1,5 +1,12 @@
 # Setup
 
+#### net-tools 查看ip
+
+```
+sudo apt-get install net-tools
+ifconfig
+```
+
 #### 远程ssh连接ubuntu
 
 Could not connect to '192.168.1.102' (port 22): Connection failed
@@ -16,7 +23,24 @@ sudo apt-get install shadowsocks-qt5
 ```
 
 编译安装
-1. 首先编译安装libQtShadowsocks
+1. 首先编译安装 libQtShadowsocks
+
+    依赖
+    ```
+    sudo apt-get install g++ cmake qt5-default qtcreator pkg-config
+    ```
+    编辑安装 Botan2
+    ```
+    wget https://botan.randombit.net/releases/Botan-2.3.0.tgz
+    tar xvf Botan-2.3.0.tgz
+    cd Botan-2.3.0
+    ./configure.py
+    make -j4
+    sudo make install
+    sudo ldconfig
+    ```
+
+
     ```
     git clone git@github.com:shadowsocks/libQtShadowsocks.git
 
@@ -27,9 +51,9 @@ sudo apt-get install shadowsocks-qt5
     ```
 2. 编译安装shadowsocks-qt5
     ```
-    sudo apt-get install libqrencode-dev
-    sudo apt-get install libzbar-dev
-    sudo apt-get install libappindicator-dev
+    sudo apt-get install libqrencode-dev libzbar-dev libappindicator-dev
+
+    git clone git@github.com:shadowsocks/shadowsocks-qt5.git
 
     mkdir build && cd build
     cmake .. -DCMAKE_INSTALL_PREFIX=/usr
