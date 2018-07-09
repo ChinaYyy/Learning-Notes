@@ -66,3 +66,15 @@ sudo apt-get install shadowsocks-qt5
 [github-openfortigui](https://github.com/theinvisible/openfortigui)
 
 [docs-openfortigui](https://hadler.me/linux/openfortigui/)
+
+#### Postman
+
+报错./electron: error while loading shared libraries: libgconf-2.so.4: cannot open shared object file: No such file or directory
+```
+apt-get install libgconf-2-4
+```
+
+Gtk-Message: Failed to load module "canberra-gtk-module"
+```
+sudo apt-get install libcanberra-gtk-module
+```
