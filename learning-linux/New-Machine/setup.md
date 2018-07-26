@@ -66,3 +66,22 @@ sudo apt-get install shadowsocks-qt5
 [github-openfortigui](https://github.com/theinvisible/openfortigui)
 
 [docs-openfortigui](https://hadler.me/linux/openfortigui/)
+
+
+## Ubuntu桌面环境配置
+
+`$ sudo apt install dconf-editor`
+
+#### 窗口按钮放左边
+
+命令行:
+
+```shell
+gsettings set org.gnome.desktop.wm.preferences button-layout ‘close,maximize,minimize:’
+
+右侧冒号放左侧 :close,maximize,minimize
+```
+
+#### 单击任务栏图标最小化
+
+`gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize'`
