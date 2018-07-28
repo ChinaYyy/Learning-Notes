@@ -96,3 +96,14 @@ Gtk-Message: Failed to load module "canberra-gtk-module"
 ```
 sudo apt-get install libcanberra-gtk-module
 ```
+
+## Bugs
+
+#### Ubuntu18.04蓝牙连接问题
+
+[Ubuntu 18.04上的蓝牙连接问题](https://sunflower.keda.io/bluetooth-connection-issue-on-ubuntu-18-04)
+```
+sudo add-apt-repository ppa:bluetooth/bluez
+sudo apt-get update
+sudo apt-get upgrade
+```
