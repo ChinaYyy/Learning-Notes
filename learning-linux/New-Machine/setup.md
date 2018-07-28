@@ -40,7 +40,6 @@ sudo apt-get install shadowsocks-qt5
     sudo ldconfig
     ```
 
-
     ```
     git clone git@github.com:shadowsocks/libQtShadowsocks.git
 
