@@ -66,6 +66,19 @@ sudo apt-get install shadowsocks-qt5
 
 [docs-openfortigui](https://hadler.me/linux/openfortigui/)
 
+
+#### Postman
+
+报错./electron: error while loading shared libraries: libgconf-2.so.4: cannot open shared object file: No such file or directory
+```
+apt-get install libgconf-2-4
+```
+
+Gtk-Message: Failed to load module "canberra-gtk-module"
+```
+sudo apt-get install libcanberra-gtk-module
+```
+
 ## Ubuntu桌面环境配置
 
 `$ sudo apt install dconf-editor`
@@ -84,17 +97,20 @@ gsettings set org.gnome.desktop.wm.preferences button-layout ‘close,maximize,m
 
 `gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize'`
 
-#### Postman
+#### Rename Terminal -- Set title
 
-报错./electron: error while loading shared libraries: libgconf-2.so.4: cannot open shared object file: No such file or directory
 ```
-apt-get install libgconf-2-4
+vim  ~/.bashrc
+
+set-title(){
+  ORIG=$PS1
+  TITLE="\e]2;$@\a"
+  PS1=${ORIG}${TITLE}
+}
+
+source ~/.bashrc
 ```
 
-Gtk-Message: Failed to load module "canberra-gtk-module"
-```
-sudo apt-get install libcanberra-gtk-module
-```
 
 ## Bugs
 
