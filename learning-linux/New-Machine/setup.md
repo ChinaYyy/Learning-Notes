@@ -79,6 +79,20 @@ Gtk-Message: Failed to load module "canberra-gtk-module"
 sudo apt-get install libcanberra-gtk-module
 ```
 
+#### Foxit Reader
+
+[Ubuntu pdf阅读器](https://linux.cn/article-7245-1.html)
+
+安装 Fixit Reader, [下载地址](https://www.foxitsoftware.com/downloads/thanks.php?page=reader_test_b&product=Foxit-Reader&platform=Linux-64-bit&version=2.4.1.0609&package_type=run&language=English)
+
+```
+cd /tmp 
+gzip -d FoxitReader_version_Setup.run.tar.gz 
+tar -xvf FoxitReader_version_Setup.run.tar 
+./FoxitReader_version_Setup.run 
+```
+
+
 ## Ubuntu桌面环境配置
 
 `$ sudo apt install dconf-editor`
