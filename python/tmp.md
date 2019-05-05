@@ -2,7 +2,7 @@
 
 ## 使用devapi作为缓存代理服务器
 
-```
+```plain
 $ pip install devpi-server
 
 $ devpi-server --host=0.0.0.0 --start    # 启动
@@ -42,9 +42,10 @@ def partial(func, *args, **keywords):
 python2.7 安装了__future__的，queue和Queue都可以用，没有安装的，只能用Queue
 
 python3 是queue
+
 ## str
 
-#### str.rpartition
+### str.rpartition
 
 ```
 >>> filepath = 'ab.c.txt'
@@ -52,3 +53,10 @@ python3 是queue
 ('ab.c', '.', 'txt')
 ```
 
+## Code
+
+`# noqa` 代码检查该行时，忽略掉任何警告
+
+```pythton
+App = Celery  # noqa: E305 XXX compat
+```
