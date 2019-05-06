@@ -66,6 +66,12 @@
 
     ```
 
+- DatetimeField Query
+
+    ```python
+    User.objects(Q(c_time__gt=datetime.datetime(2019, 5, 6)) & Q(c_time__lt=datetime.datetime(2019, 5, 7))).first()
+    ```
+
 ### Aggregation
 
 - item_frequencies
@@ -121,8 +127,13 @@
 
 ## Errors
 
-validate:
-    mongoengine.errors.ValidationError
+- validate:
+
+    save保存时， 引用的数据不存在时 `mongoengine.errors.ValidationError`
+
+    ```plain
+    mongoengine.errors.ValidationError: ValidationError (Car:None) (value should be `User` document, LazyReference or DBRef on `User` or `User`'s primary key (i.e. `ObjectIdField`): ['user'])
+    ```
 
 ## Intention
 
