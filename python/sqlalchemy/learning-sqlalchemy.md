@@ -34,14 +34,13 @@ def query_to_sql(query, dialect=mysl_dialect_object):
     return str(sql)
 ```
 
-
 ## Operate
 
-#### Query
+### Query
 
 - is not `session.query(User).filter(User.id.isnot(None))`
 
-#### Update
+### Update
 
 ``` python
 session.query(User).filter(User.id == 25).update({'password': 'pppp'})
@@ -58,5 +57,17 @@ def query_to_sql(query, dialect=mysl_dialect_onject):
 
 query = Session().query(MusicAlbum.albumid).filter_by(source='aiting')
 sql = query_to_sql(query)
-```
 
+## Code
+
+
+model
+
+```python
+def to_dict(self):
+    return {c.name: getattr(self, c.name, None) for c in self.__table__.columns}
+
+
+Base = declarative_base()
+Base.to_dict = to_dict
+```
