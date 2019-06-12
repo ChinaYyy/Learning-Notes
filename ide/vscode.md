@@ -21,7 +21,28 @@ ctrl+shift+p
 - `> fold all` 折叠
 - `> unfold all`
 
+## Plugins
+
+- file template 文件模板
+
+    ```text
+    > template
+    ```
+
+- [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome)
+
 ## Language Specifical
+
+### Pyton
+
+```text
+> Interpreter
+
+.vscode/settings.json
+{
+    "python.pythonPath": "/home/yyy/.local/share/virtualenvs/t3-qcBQKX6a/bin/python"
+}
+```
 
 ### Html
 

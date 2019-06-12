@@ -22,6 +22,36 @@
     DOCKER_OPTS="--registry-mirror=https://registry.docker-cn.com"
     ```
 
+## 程序环境
+
+Docker程序环境
+
+环境配置文件:
+
+- `/etc/sysconfig/docker-network`
+- `/etc/sysconfig/docker-storage`
+- `/etc/sysconfig/docker`
+
+Unit File
+
+- `/usr/lib/systemd/system/docker.service`
+
+Docker Registry配置文件
+
+- `/etc/containers/registries.conf`
+
+Docker 镜像加速
+
+```shell
+$ vim /etc/docker/daemon.json
+
+{
+    "registry-mirrors": ["https://registery.docker-cn.com"]
+}
+
+$ systemctl start docker.service
+```
+
 ## Command
 
 - 容器

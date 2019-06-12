@@ -15,7 +15,7 @@ $ celery -A tasks worker --loglevel=info
 
 # restart
 $ celery multi start -A proj -l info -c4 --pidfile=/var/run/celery/%n.pid
-$ celery multi restart  --pidfile=/var/run/celery/%n.pid
+$ celery multi restart -B -A tasks worker -l info -c 2 --logfile='../logs/celery_task.log' --pidfile=../pids/celery_%n.pid
 
 # 查看正在运行的任务
 $ celery -A proj inspect active
