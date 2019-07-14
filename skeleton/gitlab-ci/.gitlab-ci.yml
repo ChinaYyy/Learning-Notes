@@ -1,0 +1,42 @@
+image: "docker"
+
+variables:
+    DOCKER_DRIVER: overlay2
+    GIT_SUBMODULE_STRATEGY: recursive           # git submodule 使用
+
+services:
+    - docker:dind
+
+before_script:
+  - apk update && apk add git                   # install git
+  - git submodule update --init --recursive     # git submodule 使用
+
+stages:
+    - submodule-update
+    - build-deploy-image
+    - update-online
+
+git-submodule-update:
+    only:
+        - master
+    stage: submodule-update
+    script:
+        - git submodule update                  # 更新子模块代码
+
+http-deploy-image-build:
+    only:
+        - master
+    stage: build-deploy-image
+    script:
+        - docker login -u yangyanyou -p $PUSLPWD reg.ainirobot.com
+        - docker build -f Dockerfile -t reg.ainirobot.com/vision/vision-label-api:latest  .
+        - docker push reg.ainirobot.com/vision/vision-label-api:latest
+
+update-online-code:
+    image: appropriate/curl
+    only:
+        - master
+    stage: update-online
+    script:
+        - curl -X POST http://cv.ainirobot.com:8888/update/vision-label-api
+
