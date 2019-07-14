@@ -12,31 +12,21 @@ before_script:
   - git submodule update --init --recursive     # git submodule 使用
 
 stages:
-    - submodule-update
-    - build-deploy-image
-    - update-online
+    - build
+    - update
 
-git-submodule-update:
+stage-build:
     only:
         - master
-    stage: submodule-update
-    script:
-        - git submodule update                  # 更新子模块代码
+    stage: build
+        - docker build -f Dockerfile -t project:latest  .
+        - docker push project:latest
 
-http-deploy-image-build:
-    only:
-        - master
-    stage: build-deploy-image
-    script:
-        - docker login -u yangyanyou -p $PUSLPWD reg.ainirobot.com
-        - docker build -f Dockerfile -t reg.ainirobot.com/vision/vision-label-api:latest  .
-        - docker push reg.ainirobot.com/vision/vision-label-api:latest
-
-update-online-code:
+stage-push:
     image: appropriate/curl
     only:
         - master
-    stage: update-online
+    stage: update
     script:
-        - curl -X POST http://cv.ainirobot.com:8888/update/vision-label-api
+        - curl -X POST http://xxx
 
