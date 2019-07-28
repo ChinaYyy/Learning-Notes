@@ -104,6 +104,15 @@ bashrc类文件
 - `-ge` 大于等于
 - `-le`
 
+字符测试
+
+- `==`
+- `！=`
+- `>`
+- `<`
+- `-n string` 测定字符串是否为空， 空则真，不空则假
+- `-s string` 不空为真， 空则假
+
 逻辑关系
 
 - `&&`  两边要有空格
@@ -131,6 +140,7 @@ elif 判断条件; then
   statement
 else
   statement
+fi
 
 需要区分判断条件使用的是`命令执行结果` 还是 `命令执行状态`($?)
 
@@ -138,7 +148,45 @@ else
 
 ``if [ `id -u $NAME` -eq 0 ]; then`` 这使用的是命令执行结果， 需要使用反引号包起来！
 
+### 循环
+
+- for
+- while
+- until
+
+如何生成列表：
+
+{1..10}
+
+seq START INCREMENT STOP  `seq 1 2 10`
+
+```shell
+
+for 变量 in 列表; do
+    循环体
+done
+
+for i in 1 2 3 4; do
+    循环体
+done
+```
+
+Example
+
+```shell
+
+declare -i SUM=0
+
+for I in {1..100}; do
+    let SUM=$[$SUM + $I]
+done
+```
+
 ### 算数运算
+
+declare -i SUM=0  声明一个变量为整形
+
+declare -x SUM 声明一个环境变量
 
 1. let 算数运算表达式  `let C=$A+$B`
 2. $[算数运算表达式] `C=$($A+$B)`

@@ -239,5 +239,74 @@ grep '\<root' /etc/passwd
 
 ### sed
 
-steam editor 默认不编辑原文件， 仅对模式空间中的数据做处理
-sed "AddressCommand" file ...
+steam editor 默认不编辑原文件， 仅对模式空间中的数据做处理; 处理结束后，将模式空间打印至屏幕
+
+sed [options] "AddressCommand" file ...
+
+Options
+
+1. -n: 静默模式， 不再默认显示模式空间中的内容
+2. -i: 直接修改原文件， 这个挺危险
+3. -e SCRIPT -e SCRIPT: 可以同时执行多个脚本
+4. -f /PATH/TO/SED_SCRIPT 将-e的SCRIPT保存在SED_SCRIPT里，调用 `sed -f SED_SCRIPT file`  
+5. -r 使用扩展正则表达式
+
+Address:
+
+1. StartLine, Endline, 比如 `1,100`， `$` 最后一行， `$-1` 倒数第二行
+2. /RegExp/, 比如 /^root/
+3. /pattern1/, /pattern2/ 第1次被pattern1匹配到的行开始， 至第1次被pattern2匹配到的行结束， 这中间的所有行
+4. LineNumber 指定的行
+5. StartLine， +N 从StartLine行开始，向后的N行
+
+Command
+
+1. d: 删除符合条件的行
+2. p: 显示符合行伯的行， 配合-n使用， 不然符合条件的行会打印两遍
+3. a \string： 在指定的行后面追加新行， 内容为string； string中可以使用\n换行
+4. i \string： 在指定行的前面添加新行
+5. r FILE: 将指定的文件内容添加至符合条件的行处
+6. w FILE: 将地址指定的范围内的行另存至指定文件中
+7. s/pattern/string/: 查找并替换, 默认只扶换每行中`第一次被模式匹配`到的字符串
+
+    加修饰符
+    g： 全局替换
+    i： 忽略大小写
+    s/// 可以替换为其他字符，避免转义 s###  s@@@等
+    &： 引用模块匹配整个串
+    \1 \2 \3 后向引用
+
+Example
+
+```shell
+
+# 在 /开头的行下面添加/etc/issue的内容
+sed '/^\//r /etc/issue' tmp.txt
+# 将以/形状的行，写入到out.txt
+sed -n '/^\//w out.txt' tmp.txt
+
+# 将行首的 / 替换 为 #
+sed 's/^\//#/' tmp.txt
+
+# 替换如果是同一行匹配到多个模式， 只替换每行中，第一次被匹配的字符串
+# 比如 aa /aa /bb 会替换为 aa #aa /bb, 后面的/不被替换！！！
+sed 's/\//#/' tmp.txt
+
+# 全局替换
+sed 's@/@#@g' tmp.txt
+```
+
+后向引用例子
+
+```shell
+cat sed.txt
+
+    hello, my liker
+    hi, my lov
+
+# 将 like --> liker  love --> lover
+sed 's@l..e@&r@' sed.txt
+sed 's@\(l..e\)@\1r@' sed.txt
+```
+
+删除将行首的空格 `history | sed 's@^[[:space:]]*@@g'`
